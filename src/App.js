@@ -18,6 +18,7 @@ function App() {
 
   const uploadFile = () => {
     if (imageUpload == null) return;
+    // || imageUpload.name.substring(imageUpload.name.lastIndexOf('.'))!== 'jpg'
     const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
     uploadBytes(imageRef, imageUpload)
       .then(() => showPics())
@@ -49,28 +50,46 @@ function App() {
 
   useEffect(() => {
     return () => showPics()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className="App">
+    <div className="App my">
       <input
         type="file"
         onChange={(event) => {
           setImageUpload(event.target.files[0]);
         }}
       />
-      <button
-        onClick={uploadFile}
-      > Upload Image</button>
-      <button
-        onClick={showPics}
-      >Get</button>
-      {imageUrls.map((item) => (
-        <>
-          <img src={item.url} alt={'.'} />
-          <button onClick={() => deleteImage(item.path)}>Delete</button>
-        </>
-      ))}
+      <div className="btn-group mb">
+        <button
+          className="btn btn-primary"
+          onClick={uploadFile}
+        > Upload Image</button>
+        <button
+          className="btn btn-primary"
+          onClick={()=>{
+            console.log(imageUpload.name.substring(imageUpload.name.lastIndexOf('.')));
+          }}
+        >Get</button>
+      </div>
+      <div className="flex-container">
+        {imageUrls.map((item) => (
+          <>
+          <div className="card" style={{width:'14rem'}}>
+              <img className="card-img-top" src={item.url} alt={'.'} />
+              <div className="hr"></div>
+              <div className="btn-group">
+            <button 
+              className="btn btn-danger"
+              onClick={() => deleteImage(item.path)}
+            >Delete</button>
+            <a href={item.url} className="btn btn-primary" rel={'noreferrer'}   target={'_blank'}>Open</a>
+              </div>
+          </div>
+          </>
+        ))}
+        </div>
     </div>
   );
 }
