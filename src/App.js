@@ -68,9 +68,7 @@ function App() {
         > Upload Image</button>
         <button
           className="btn btn-primary"
-          onClick={()=>{
-            console.log(imageUpload.name.substring(imageUpload.name.lastIndexOf('.')));
-          }}
+          onClick={()=>showPics()}
         >Get</button>
       </div>
       <div className="flex-container">
